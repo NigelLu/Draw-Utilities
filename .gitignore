@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# pt files folder
+pt-files/**
+
+# output folder
+output/**
