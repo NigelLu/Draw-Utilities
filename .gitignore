@@ -136,3 +136,6 @@ output/**
 
 # zip files
 **.zip
+
+# prev draw_correlation.py
+draw_correlation.py
