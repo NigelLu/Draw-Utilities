@@ -37,7 +37,7 @@ def apply_mask(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float
     print(f">>> Start applying masks for {image_to_mask_map}...")
     try:
         # * create a dict for storing masks, with keys being the keys of image_to_mask_map
-        mask_dict = dict([(key, None) for key in image_to_mask_map.keys()])
+        masked_img_dict = dict([(key, None) for key in image_to_mask_map.keys()])
 
         for image_key, mask_key in image_to_mask_map.items():
             image = np.ascontiguousarray(
@@ -51,10 +51,10 @@ def apply_mask(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float
             image_with_mask = cv2.addWeighted(
                 image, 1-MASK_WEIGHT, RGB_mask, MASK_WEIGHT, GAMMA_SCALAR)
 
-            mask_dict[image_key] = image_with_mask
+            masked_img_dict[image_key] = image_with_mask
 
         print(">>> Mask Applied")
-        return mask_dict
+        return masked_img_dict
     except:
         print(
             "Something went wrong and we failed to apply masks")
