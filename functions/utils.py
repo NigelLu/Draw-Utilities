@@ -16,7 +16,10 @@ def validate_save_dir(save_dir: str) -> bool:
     """
     # * double check for the validity of argument save_dir
     assert type(save_dir) == str, f"Expect save_dir argument to be a str, got {type(save_dir)} instead"
-    assert os.path.isdir(save_dir), f"Argument save_dir expects a directory dir, {save_dir} is invalid"
+
+    if not os.path.isdir(save_dir): 
+        os.makedirs(save_dir, exist_ok=False)
+        return True
 
     if len(os.listdir(save_dir)) == 0:
         print(f">>> Save dir validtity check passed")
