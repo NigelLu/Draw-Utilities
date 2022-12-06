@@ -12,7 +12,8 @@ import numpy as np
 from functions.mask import apply_mask
 from functions.utils import validate_save_dir
 
-def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float, GAMMA_SCALAR: float, save_dir: str, image_name: str) -> None:
+
+def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float, GAMMA_SCALAR: float, save_dir: str, image_name: str, should_log: bool = False) -> None:
     """Apply a red mask on top of the images and save the images
 
     Apply a red mask on top of the images and save the images, 
@@ -36,18 +37,17 @@ def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGH
     """
 
     # * double check for image_name and save_dir
-    assert type(image_name) == str, f"Expect image_name argument to be a str, got {type(image_name)} instead"
+    assert type(
+        image_name) == str, f"Expect image_name argument to be a str, got {type(image_name)} instead"
 
-    should_proceed = validate_save_dir(save_dir)
-    if not should_proceed:
-        print(">>> applymask_and_draw function exited")
-        return
     try:
-        masked_img_dict = apply_mask(draw_info_dict, image_to_mask_map, MASK_WEIGHT, GAMMA_SCALAR)
+        masked_img_dict = apply_mask(
+            draw_info_dict, image_to_mask_map, MASK_WEIGHT, GAMMA_SCALAR, should_log=should_log)
 
         for img_key, masked_img in masked_img_dict.items():
-            cv2.imwrite(os.path.join(save_dir, f"{img_key}-{image_name}"), np.concatenate((draw_info_dict[img_key], masked_img), axis=1))
-        
+            cv2.imwrite(os.path.join(save_dir, f"{img_key}-{image_name}"), np.concatenate(
+                (draw_info_dict[img_key], masked_img), axis=1))
+
         return
     except:
         print(
