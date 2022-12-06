@@ -50,10 +50,12 @@ def apply_mask(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float
 
             mask = np.array(
                 draw_info_dict[mask_key], dtype=np.uint8, copy=True)
+            mask[mask==255] = 0
+            mask = mask * 255
             G = np.array(np.zeros(mask.shape), dtype=np.uint8)
             B = np.array(G, dtype=np.uint8, copy=True)
             RGB_mask = np.array(np.concatenate(
-                (mask, G, B), axis=2), dtype=np.uint8)
+                (B, G, mask), axis=2), dtype=np.uint8)
 
             image_with_mask = cv2.addWeighted(
                 image, 1-MASK_WEIGHT, RGB_mask, MASK_WEIGHT, GAMMA_SCALAR)

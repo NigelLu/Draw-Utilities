@@ -13,7 +13,7 @@ from functions.mask import apply_mask
 from functions.utils import validate_save_dir
 
 
-def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float, GAMMA_SCALAR: float, save_dir: str, image_name: str, should_log: bool = False) -> None:
+def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float, GAMMA_SCALAR: float, save_dir: str, image_name: str, split: int, should_log: bool = False) -> None:
     """Apply a red mask on top of the images and save the images
 
     Apply a red mask on top of the images and save the images, 
@@ -31,21 +31,25 @@ def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGH
         GAMMA_SCALAR {float}: the scalar to apply on the masked image. This is the same argument used as in cv2.addWeighted()
         save_dir {str}: the save dir to save the output images
         image_name {str}: the image name to name the output images (note: this will be prepended with <image_key>)
+        split {int}: the split of the dataset
 
     Returns:
         None
     """
 
     # * double check for image_name and save_dir
+    assert type(split) == int, f"Expect split argument to be an int, got {type(split)} instead"
     assert type(
         image_name) == str, f"Expect image_name argument to be a str, got {type(image_name)} instead"
+
+    split = str(split)
 
     try:
         masked_img_dict = apply_mask(
             draw_info_dict, image_to_mask_map, MASK_WEIGHT, GAMMA_SCALAR, should_log=should_log)
 
         for img_key, masked_img in masked_img_dict.items():
-            cv2.imwrite(os.path.join(save_dir, f"{img_key}-{image_name}"), np.concatenate(
+            cv2.imwrite(os.path.join(save_dir, split, img_key, image_name), np.concatenate(
                 (draw_info_dict[img_key], masked_img), axis=1))
 
         return

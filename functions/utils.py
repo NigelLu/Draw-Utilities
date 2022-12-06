@@ -3,42 +3,53 @@
 import os
 import shutil
 
-def validate_save_dir(save_dir: str) -> bool:
+def validate_save_dir(save_dir: str, image_to_mask_map: dict, split: int) -> bool:
     """Validate save dir
 
     Validate save dir, and clear/ignore the content of the save directory based on user input
 
     Args:
         save_dir {str}: the save dir to be validated
+        image_to_mask_map {dict}: a python dictionary specifying an image to mask key mapping (corresponding to the keys in draw_info_dict), 
+                            as following
+                            {
+                                <image_key>: <mask_key>,
+                            }
+        split {int}: the split of the dataset
 
     Returns:
         True/False indicating whether the process calling validate_save_dir function should proceed or not
     """
-    # * double check for the validity of argument save_dir
+    # * double check for the validity of arguments
+    assert type(split) == int, f"Expect split argument to be an int, got {type(split)} instead"
     assert type(save_dir) == str, f"Expect save_dir argument to be a str, got {type(save_dir)} instead"
+    assert type(image_to_mask_map) == dict, f"Expect image_to_mask_map argument to be a dict, got {type(image_to_mask_map)} instead"
+    assert os.path.isdir(save_dir), f"Expect save_dir to be a direcory, {save_dir} is invalid"
 
-    if not os.path.isdir(save_dir): 
-        os.makedirs(save_dir, exist_ok=False)
-        return True
+    split = str(split)
+    target_dirs = []
+    for image_key in image_to_mask_map.keys():
+        target_dir = os.path.join(save_dir, split, image_key)
+        os.makedirs(target_dir, exist_ok=True)
+        target_dirs.append(target_dir)
 
-    if len(os.listdir(save_dir)) == 0:
-        print(f">>> Save dir validtity check passed")
-        return True
-    
-    print(f"Warning: the save dir '{save_dir}' you specified is NOT empty\nIt contains")
+    for target_dir in target_dirs:
+        if len(os.listdir(target_dir)) == 0:
+            continue
+        print(f"Warning: the target dir '{target_dir}' is NOT empty\nIt contains")
 
-    dir_content = os.listdir(save_dir)
-    dir_content.sort()
-    print('\n'.join(dir_content))
+        dir_content = os.listdir(target_dir)
+        dir_content.sort()
+        print('\n'.join(dir_content))
 
-    should_proceed = ''
-    while should_proceed.lower() != 'yes' and should_proceed.lower() != 'no' and should_proceed.lower() != 'ignore':
-        should_proceed = input(
-            "Would you like us to empty the directory for you and proceed? (yes/no/ignore)\n> ").lower()
-        if should_proceed.lower() == 'no':
-            return False
-        if should_proceed.lower() == 'yes':
-            shutil.rmtree(save_dir, ignore_errors=True)
-            os.mkdir(save_dir)
+        should_proceed = ''
+        while should_proceed.lower() != 'yes' and should_proceed.lower() != 'no' and should_proceed.lower() != 'ignore':
+            should_proceed = input(
+                "Would you like us to empty the directory for you and proceed? (yes/no/ignore)\n> ").lower()
+            if should_proceed.lower() == 'no':
+                return False
+            if should_proceed.lower() == 'yes':
+                shutil.rmtree(target_dir, ignore_errors=True)
+
     print(f">>> Save dir validtity check passed")
     return True

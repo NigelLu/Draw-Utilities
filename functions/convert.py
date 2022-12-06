@@ -1,5 +1,6 @@
 """module convert.py
 """
+import pdb
 import torch
 
 from einops import rearrange
@@ -94,7 +95,7 @@ def denormalize(draw_info_dict: dict, keys_to_process: list, MEAN: list, STD: li
                 new_draw_info_dict[key] = img
             if in_place:
                 for t, m, s in zip(draw_info_dict[key], MEAN, STD):
-                    t.mul_(s).add_(m).mul(255)
+                    t.mul_(s).add_(m).mul_(255)
 
         if should_log:
             print(">>> Denormalizing finished")
@@ -109,7 +110,7 @@ def denormalize(draw_info_dict: dict, keys_to_process: list, MEAN: list, STD: li
 def reshape(draw_info_dict: dict, keys_to_process: list, rearrange_str: str, in_place: bool = True, should_log: bool = False) -> dict:
     """Reshape the image tensors in draw_info_dict
 
-    Convert the tensors to torch.float32 in draw_info_dict based on the keys given by keys_to_process
+    Restore RGB Channel sequence and reshape the image tensors in draw_info_dict based on the keys given by keys_to_process
 
     Args:
         draw_info_dict {dict}: a python dictionary with values being torch.Tensor
@@ -148,9 +149,17 @@ def reshape(draw_info_dict: dict, keys_to_process: list, rearrange_str: str, in_
 
         for key in keys_to_process:
             if not in_place:
+                img = draw_info_dict[key].clone()
+                if img.shape[0] == 3:
+                    img = torch.cat(
+                        [img[2].unsqueeze(0), img[1].unsqueeze(0), img[0].unsqueeze(0)], dim=0)
                 new_draw_info_dict[key] = rearrange(
-                    draw_info_dict[key].clone(), rearrange_str)
+                    img, rearrange_str)
+
             if in_place:
+                if draw_info_dict[key].shape[0] == 3:
+                    draw_info_dict[key] = torch.cat([draw_info_dict[key][2].unsqueeze(
+                        0), draw_info_dict[key][1].unsqueeze(0), draw_info_dict[key][0].unsqueeze(0)], dim=0)
                 draw_info_dict[key] = rearrange(
                     draw_info_dict[key], rearrange_str)
 

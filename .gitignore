@@ -133,3 +133,6 @@ pt-files/**
 
 # output folder
 output/**
+
+# zip files
+**.zip
