@@ -25,6 +25,10 @@ def apply_mask(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float
     """
     # * double check for argument type
     assert type(
+        MASK_WEIGHT) == float, f"Expect MASK_WEIGHT argument to be a float, got {type(MASK_WEIGHT)} instead"
+    assert type(
+        GAMMA_SCALAR) == float, f"Expect GAMMA_SCALAR argument to be a float, got {type(GAMMA_SCALAR)} instead"
+    assert type(
         draw_info_dict) == dict, f"Expect draw_info_dict argument to be a dict, got {type(draw_info_dict)} instead"
     assert type(
         image_to_mask_map) == dict, f"Expect image_to_mask_map argument to be a bool, got {type(image_to_mask_map)} instead"

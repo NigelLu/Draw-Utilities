@@ -1,4 +1,5 @@
-# region CONSTANTS
+"""module config.py
+"""
 
 # * denormalize
 STD = [0.229, 0.224, 0.225]
@@ -15,4 +16,3 @@ NUM_TO_DRAW = 100
 
 GAMMA_SCALAR = 1
 MASK_WEIGHT = 0.4
-# endregion CONSTANTS
