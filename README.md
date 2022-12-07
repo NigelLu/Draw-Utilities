@@ -22,6 +22,7 @@
 ## Preparation
 - Install the required packages by running `python -m pip install -r requirements.txt` 
     - we used `Python 3.10.6` here
+    - if you could not find the exact version of the packages listed in `requirements.txt`, it is acceptable to use a newer/older version
 
 ---
 ## Hands-on
