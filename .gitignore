@@ -130,9 +130,11 @@ dmypy.json
 
 # pt files folder
 pt-files/**
+!pt-files/.gitkeep
 
 # output folder
 output/**
+!output/.gitkeep
 
 # zip files
 **.zip
