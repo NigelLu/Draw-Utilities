@@ -52,7 +52,7 @@ def process_label(label: np.array, class_list: List[int], class_ids_to_be_remove
     label_class_list = np.unique(label).tolist()
     for class_id in class_ids_to_be_removed:
         if class_id in label_class_list:
-            label_class_list.remove(0)
+            label_class_list.remove(class_id)
 
     for label_class in label_class_list:
         assert label_class in supported_classes, f"Supported classes: {supported_classes}\nInvalid class found: {label_class}"

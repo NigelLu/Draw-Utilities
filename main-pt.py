@@ -1,10 +1,11 @@
-"""Main Drawing Module main.py
+""" Main Drawing Module main-pt.py
+    This module uses existing pt files
 """
 import time
 import torch
 
 from tqdm import tqdm
-from config import config as cfg
+from config import config_pt as cfg
 from draw.drawmask import applymask_and_draw
 from functions.utils import validate_save_dir
 from functions.convert import detach, reshape, to_float32, denormalize, tocpu_and_asNumpy

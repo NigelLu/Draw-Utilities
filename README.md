@@ -4,6 +4,8 @@
 - `config`
     - `__init__.py`
     - `config.py`
+    - `config_pt.py`
+    - `config_pascal.py`
 - `draw`
     - `__init__.py`
     - `convert.py`
@@ -56,3 +58,9 @@
 ## v1.0 Release Notes
 - `v1.0` is still in its preliminary stage
 - Now we could not support drawing original images alongside with the masked version
+
+---
+## v1.1 Release Notes
+- `v1.1` adds support for directly loading PASCAL-VOC2012 
+- This codebase now supports both drawing from pt files or raw pascal data. 
+- For this release, we added dataset module to establish dataloders for pascal.

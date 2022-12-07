@@ -114,8 +114,13 @@ class EpisodicData(Dataset):
             support_image_list) == self.shot, f"Support image/label retrieve failed and we could not retrieve enough support labels/images"
 
         # * concatenate support images and labels
-        spprt_images_tensor = torch.cat(support_image_list, dim=0)
-        spprt_labels_tensor = torch.cat(support_label_list, dim=0)
+        support_images = []
+        support_labels = []
+        for k in range(self.shot):
+            support_images.append(torch.Tensor(support_image_list[k]))
+            support_labels.append(torch.Tensor(support_label_list[k]))
+        spprt_images_tensor = torch.cat(support_images, dim=0)
+        spprt_labels_tensor = torch.cat(support_labels, dim=0)
 
         # * transform query image and label into torch.Tensor
         qry_img_tensor = torch.Tensor(query_image)
@@ -129,7 +134,7 @@ class EpisodicData(Dataset):
 
 
 # region Get DataLoader
-def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, return_path: bool = False, train_list: str = "lists/pascal/train.txt") -> DataLoader:
+def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, return_path: bool = False, train_list: str = "dataset/lists/pascal/train.txt") -> DataLoader:
     assert split in VALID_TRAIN_SPLIT, f"Valid train splits: {VALID_TRAIN_SPLIT}, got split: {split}"
 
     split_classes_pascal = get_split_classes_pascal()
@@ -137,7 +142,6 @@ def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, return_pa
 
     if episodic:
         raw_train_data_pascal = EpisodicData(
-            mode_train=True,
             transform=None,
             class_list=class_list,
             data_list_path=train_list,
