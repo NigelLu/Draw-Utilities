@@ -1,9 +1,11 @@
-"""module utils.py
+"""module functions.utils.py
 """
 import os
 import shutil
 
-def validate_save_dir(save_dir: str, image_to_mask_map: dict, split: int) -> bool:
+from typing import Dict
+
+def validate_save_dir(save_dir: str, image_to_mask_map: Dict[str, str], split: int) -> bool:
     """Validate save dir
 
     Validate save dir, and clear/ignore the content of the save directory based on user input

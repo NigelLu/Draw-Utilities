@@ -1,11 +1,14 @@
-"""module mask.py
+"""module functions.mask.py
 """
 import cv2
 import pdb
+import torch
 import numpy as np
 
+from typing import Dict, List
 
-def apply_mask(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float, GAMMA_SCALAR: float, should_log: bool = False) -> dict:
+
+def apply_mask(draw_info_dict: Dict[str, torch.Tensor], image_to_mask_map: Dict[str, str], MASK_WEIGHT: float, GAMMA_SCALAR: float, should_log: bool = False) -> dict:
     """Apply a red mask on top of the images
 
     Apply a red mask on top of the images, with the keys of masks and images specified by an image_to_mask_map

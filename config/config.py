@@ -1,5 +1,19 @@
-"""module config.py
+"""module config.config.py
 """
+import torch
+import random
+
+import numpy as np
+
+
+# * set seed
+SEED = 42
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+torch.cuda.manual_seed(SEED)
+torch.cuda.manual_seed_all(SEED)
+
 # * log related
 SHOULD_LOG = False
 

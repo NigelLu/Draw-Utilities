@@ -1,4 +1,4 @@
-"""module classes.py
+"""module dataset.classes.py
 """
 from typing import Dict, Any
 from collections import defaultdict
@@ -46,7 +46,7 @@ def get_split_classes_pascal() -> Dict[str, Any]:
     """
     split_classes = {"pascal": defaultdict(dict)}
 
-    # =============== Pascal ===================
+    # * =============== Pascal ===================
     name = "pascal"
     class_list = list(range(1, 21))
     vals_lists = [

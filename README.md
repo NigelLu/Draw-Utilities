@@ -9,6 +9,17 @@
     - `convert.py`
     - `mask.py`
     - `utils.py`
+- `dataset`
+    - `lists`
+        - `pascal`
+            - `train.txt`
+            - `val.txt`
+    - `VOC2012`
+    - `__init__.py`
+    - `classes.py`
+    - `dataset.py`
+    - `utils.py`
+    - `transform.py`
 - `output`
     - `...`
 - `pt-files`
@@ -21,7 +32,7 @@
 ---
 ## Preparation
 - Install the required packages by running `python -m pip install -r requirements.txt` 
-    - we used `Python 3.10.6` here
+    - we recommend using `Python ^3.7.6` here
     - if you could not find the exact version of the packages listed in `requirements.txt`, it is acceptable to use a newer/older version
 
 ---

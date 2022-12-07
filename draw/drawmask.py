@@ -1,4 +1,4 @@
-"""module drawmask.py
+"""module draw.drawmask.py
 
    Summary:
     This module helps apply mask to image(s) and 
@@ -6,14 +6,15 @@
 """
 import os
 import cv2
+import torch
 
 import numpy as np
 
+from typing import Dict
 from functions.mask import apply_mask
-from functions.utils import validate_save_dir
 
 
-def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGHT: float, GAMMA_SCALAR: float, save_dir: str, image_name: str, split: int, should_log: bool = False) -> None:
+def applymask_and_draw(draw_info_dict: Dict[str, torch.Tensor],  image_to_mask_map: Dict[str, str], MASK_WEIGHT: float, GAMMA_SCALAR: float, save_dir: str, image_name: str, split: int, should_log: bool = False) -> None:
     """Apply a red mask on top of the images and save the images
 
     Apply a red mask on top of the images and save the images, 
@@ -38,7 +39,8 @@ def applymask_and_draw(draw_info_dict: dict, image_to_mask_map: dict, MASK_WEIGH
     """
 
     # * double check for image_name and save_dir
-    assert type(split) == int, f"Expect split argument to be an int, got {type(split)} instead"
+    assert type(
+        split) == int, f"Expect split argument to be an int, got {type(split)} instead"
     assert type(
         image_name) == str, f"Expect image_name argument to be a str, got {type(image_name)} instead"
 

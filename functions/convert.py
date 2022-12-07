@@ -1,12 +1,13 @@
-"""module convert.py
+"""module functions.convert.py
 """
 import pdb
 import torch
 
 from einops import rearrange
+from typing import Dict, List
 
 
-def detach(draw_info_dict: dict, keys_to_process: list, should_log: bool = False) -> None:
+def detach(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], should_log: bool = False) -> None:
     """Detach tensors in draw_info_dict
 
     Detach the tensors (in place) in draw_info_dict based on the keys given by keys_to_process
@@ -43,7 +44,7 @@ def detach(draw_info_dict: dict, keys_to_process: list, should_log: bool = False
         return
 
 
-def denormalize(draw_info_dict: dict, keys_to_process: list, MEAN: list, STD: list, in_place: bool = True, should_log: bool = False) -> dict:
+def denormalize(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], MEAN: List[float], STD: List[float], in_place: bool = True, should_log: bool = False) -> dict:
     """Denormalize the image tensors in draw_info_dict
 
     Denormalize the image tensors in draw_info_dict based on the keys given by keys_to_process
@@ -107,7 +108,7 @@ def denormalize(draw_info_dict: dict, keys_to_process: list, MEAN: list, STD: li
         return
 
 
-def reshape(draw_info_dict: dict, keys_to_process: list, rearrange_str: str, in_place: bool = True, should_log: bool = False) -> dict:
+def reshape(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], rearrange_str: str, in_place: bool = True, should_log: bool = False) -> dict:
     """Reshape the image tensors in draw_info_dict
 
     Restore RGB Channel sequence and reshape the image tensors in draw_info_dict based on the keys given by keys_to_process
@@ -173,7 +174,7 @@ def reshape(draw_info_dict: dict, keys_to_process: list, rearrange_str: str, in_
         return
 
 
-def to_float32(draw_info_dict: dict, keys_to_process: list, in_place: bool = True, should_log: bool = False) -> dict:
+def to_float32(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], in_place: bool = True, should_log: bool = False) -> dict:
     """Convert tensors to torch.float32 in draw_info_dict
 
     Convert the tensors to torch.float32 in draw_info_dict based on the keys given by keys_to_process
@@ -226,7 +227,7 @@ def to_float32(draw_info_dict: dict, keys_to_process: list, in_place: bool = Tru
         return
 
 
-def tocpu_and_asNumpy(draw_info_dict: dict, keys_to_process: list, in_place: bool = True, should_log: bool = False) -> dict:
+def tocpu_and_asNumpy(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], in_place: bool = True, should_log: bool = False) -> dict:
     """Send tensors to CPU and convert them from torch.Tensor to Numpy
 
     Send the tensors in draw_info_dict to CPU and convert them from torch.Tensor to Numpy based on the keys given by keys_to_process

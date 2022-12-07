@@ -141,3 +141,7 @@ output/**
 
 # prev draw_correlation.py
 draw_correlation.py
+
+# PASCAL dataset
+dataset/VOC2012/**
+!dataset/VOC2012/.gitkeep
