@@ -23,7 +23,7 @@ NUM_TO_DRAW = 100
 
 # * pt file related
 PT_FILE_PATH = f'pt-files/drawList-{SPLIT}-temp10-200.pt'
-SAVE_DIR = 'output/task-definition-raw'
+SAVE_DIR = 'output/mask-raw'
 
 GAMMA_SCALAR = 1
 MASK_WEIGHT = 0.4

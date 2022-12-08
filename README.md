@@ -8,6 +8,10 @@
     - `config_pascal.py`
 - `draw`
     - `__init__.py`
+    - `drawlabel.py`
+    - `drawmask.py`
+- `functions`
+    - `__init__.py`
     - `convert.py`
     - `mask.py`
     - `utils.py`
@@ -39,11 +43,20 @@
 
 ---
 ## Hands-on
+
+### `main-pt.py`
 - Download a pre-defined `.pt` file from this [drive link](https://drive.google.com/file/d/1ydF8tyVupIqYYsqoZGGYR3hWYr3_jykM/view?usp=sharing)
 - Place the downloaded file under `pt-files/`
-- Create folders in the following structure `<project_root>/output/task-definition`
+- Create folders in the following structure `<project_root>/output/mask-pt`
 - `cd` to the root folder of this project
-- Run `python main.py` and see the results!
+- Run `python main-pt.py` and see the results!
+
+### `main-pascal.py`
+- Download `PASCAL-VOC2012` dataset from this [drive link](https://drive.google.com/file/d/1zuek0869oc6VZO1kf8K-DWx9tgo8PVyc/view?usp=sharing)
+- Unzip the file and place the folder named `VOC2012` under `dataset/`
+- Create folders in the following structure `<project_root>/output/mask-raw`
+- `cd` to the root folder of this project
+- Run `python main-pascal.py` and see the results!
 
 ---
 ## Usage

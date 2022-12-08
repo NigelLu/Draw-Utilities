@@ -31,7 +31,7 @@ def applymask_and_draw(draw_info_dict: Dict[str, torch.Tensor],  image_to_mask_m
         MASK_WEIGHT {float}: a float in the interval (0, 1) specifying the weight of the mask (image weight will be calculated using 1-MASK_WEIGHT)
         GAMMA_SCALAR {float}: the scalar to apply on the masked image. This is the same argument used as in cv2.addWeighted()
         save_dir {str}: the save dir to save the output images
-        image_name {str}: the image name to name the output images (note: this will be prepended with <image_key>)
+        image_name {str}: the image name to name the output images
         split {int}: the split of the dataset
 
     Returns:

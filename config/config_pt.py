@@ -26,7 +26,7 @@ SPLIT = 0
 
 # * pt file related
 PT_FILE_PATH = f'pt-files/drawList-{SPLIT}-temp10-200.pt'
-SAVE_DIR = 'output/task-definition-pt'
+SAVE_DIR = 'output/mask-pt'
 
 GAMMA_SCALAR = 1
 MASK_WEIGHT = 0.4

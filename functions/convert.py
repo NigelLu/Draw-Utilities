@@ -1,6 +1,5 @@
 """module functions.convert.py
 """
-import pdb
 import torch
 
 from einops import rearrange
