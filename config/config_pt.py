@@ -23,9 +23,10 @@ MEAN = [0.485, 0.456, 0.406]
 
 # * draw config
 SPLIT = 0
+NUM_TO_DRAW = 200
 
 # * pt file related
-PT_FILE_PATH = f'pt-files/drawList-{SPLIT}-temp10-200.pt'
+PT_FILE_PATH = f'pt-files/draw-info-pascal-1210_f0_pm1{SPLIT}-200.pt'
 SAVE_DIR = 'output/mask-pt'
 
 GAMMA_SCALAR = 1

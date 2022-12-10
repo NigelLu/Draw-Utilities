@@ -53,6 +53,7 @@ def applymask_and_draw(draw_info_dict: Dict[str, torch.Tensor],  image_to_mask_m
         for img_key, masked_img in masked_img_dict.items():
             cv2.imwrite(os.path.join(save_dir, split, img_key, image_name), np.concatenate(
                 (draw_info_dict[img_key], masked_img), axis=1))
+            # cv2.imwrite(os.path.join(save_dir, split, img_key, image_name), masked_img)
 
         return
     except:
