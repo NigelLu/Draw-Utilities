@@ -1,6 +1,25 @@
-"""module functions.convert.py
+""" module functions.convert.py
+   
+    Summary:
+
+        This module contains utility conversion functions often used in drawing
+
+    Function List:
+
+        - detach(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], should_log: bool = False) -> None
+
+        - denormalize(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], MEAN: List[float], STD: List[float], in_place: bool = True, should_log: bool = False) -> dict
+
+        - reshape(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], rearrange_str: str, in_place: bool = True, should_log: bool = False) -> dict
+
+        - logit_to_mask(draw_info_dict: Dict[str, torch.Tensor], masks_to_translate: List[str], fg_dim: int = 1, in_place: bool = True, should_log: bool = False) -> Dict[str, torch.Tensor]
+
+        - combine(draw_info_dict: Dict[str, torch.Tensor], images_and_masks_to_combine: Dict[str, List[str]], img_save_key: str = "img_combined", mask_save_key: str = "mask_combined", should_log: bool = False) -> None
+
+        - to_float32(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], in_place: bool = True, should_log: bool = False) -> dict
+
+        - tocpu_and_asNumpy(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], in_place: bool = True, should_log: bool = False) -> dict
 """
-import pdb
 import torch
 
 from einops import rearrange
@@ -188,7 +207,7 @@ def logit_to_mask(draw_info_dict: Dict[str, torch.Tensor], masks_to_translate: L
     Args:
         draw_info_dict {dict}: a python dictionary with values being torch.Tensor
         masks_to_translate {List[str]}: a list of strings specifying the keys to the masks that we want to translate into binary mask
-        fg_dim {int}: an integer specifying which channel corresponds to the foreground
+        fg_dim {int}: an integer specifying which channel corresponds to the foreground, default to 1 (i.e., the 2nd channel)
         in_place {bool}: True/False argument, specifying whether to convert the tensors in an in-place manner
         should_log {bool}: whether to print logs
 
@@ -210,17 +229,29 @@ def logit_to_mask(draw_info_dict: Dict[str, torch.Tensor], masks_to_translate: L
     try:
         if should_log:
             print(f">>> Start translating logits for {masks_to_translate}...")
+
+        # * init a dict to store the translated logits
         translated_binary_mask_dict = dict(
             [(key, None) for key in masks_to_translate])
 
         for mask_key in masks_to_translate:
+            # * mask -> probability (h, w, num_classes)
             probability = torch.softmax(draw_info_dict[mask_key], dim=2)
+
+            # * probability -> target_class_prob (h, w, 1)
             fg_probability = probability[:, :, fg_dim].unsqueeze(2)
+
+            # * compute the background probability 
+            # * by summing up all probability channels but the fg_dim
             bg_probability = torch.zeros_like(fg_probability)
             for channel in range(probability.shape[2]):
-                if channel == fg_dim: continue
+                if channel == fg_dim:
+                    continue
                 bg_probability += probability[:, :, channel].unsqueeze(2)
-            _, translated_mask = torch.max(torch.cat([bg_probability, fg_probability], dim=2), dim=2)
+            
+            # * get the binary foreground mask by using torch.max 
+            _, translated_mask = torch.max(
+                torch.cat([bg_probability, fg_probability], dim=2), dim=2)
             translated_mask = translated_mask.unsqueeze(2)
             if in_place:
                 draw_info_dict[mask_key] = translated_mask
@@ -290,9 +321,6 @@ def combine(draw_info_dict: Dict[str, torch.Tensor], images_and_masks_to_combine
                 draw_info_dict[images_and_masks_to_combine['images'][idx]])
             mask_list.append(
                 draw_info_dict[images_and_masks_to_combine['masks'][idx]])
-        # print([img_list[idx].shape for idx in range(len(img_list))])
-        # print([mask_list[idx].shape for idx in range(len(mask_list))])
-        # pdb.set_trace()
         draw_info_dict[img_save_key] = torch.cat(img_list, dim=1)
         draw_info_dict[mask_save_key] = torch.cat(mask_list, dim=1)
 

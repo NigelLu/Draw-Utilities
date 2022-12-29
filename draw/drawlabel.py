@@ -1,8 +1,8 @@
-"""module draw.drawlabel.py
+""" module draw.drawlabel.py
 
-   Summary:
-    This module reduces label to "background" versus "foreground" grayscale
-    and draws the grayscale mask alongside the original image
+    Summary:
+        This module reduces label to "background" versus "foreground" grayscale
+        and draws the grayscale mask alongside the original image
 """
 import os
 import cv2

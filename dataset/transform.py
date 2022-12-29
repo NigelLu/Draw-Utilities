@@ -1,4 +1,4 @@
-"""module dataset.transform.py
+""" module dataset.transform.py
 """
 
 class Compose(object):

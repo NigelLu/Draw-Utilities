@@ -1,4 +1,4 @@
-"""module config.config.py
+""" module config.config.py
 """
 import torch
 import random

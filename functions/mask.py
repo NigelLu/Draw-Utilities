@@ -1,4 +1,4 @@
-"""module functions.mask.py
+""" module functions.mask.py
 """
 import cv2
 import torch

@@ -1,8 +1,8 @@
-"""module draw.drawmask.py
+""" module draw.drawmask.py
 
-   Summary:
-    This module helps apply mask to image(s) and 
-    draw the masked image out alongside the original image(s)
+    Summary:
+        This module helps apply mask to image(s) and 
+        draw the masked image out alongside the original image(s)
 """
 import os
 import cv2
@@ -33,6 +33,7 @@ def applymask_and_draw(draw_info_dict: Dict[str, torch.Tensor],  image_to_mask_m
         save_dir {str}: the save dir to save the output images
         image_name {str}: the image name to name the output images
         split {int}: the split of the dataset
+        should_log {bool}: whether to print logs
 
     Returns:
         None

@@ -1,4 +1,4 @@
-"""module config.config_pascal.py
+""" module config.config_pascal.py
 """
 import torch
 import random
