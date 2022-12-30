@@ -24,7 +24,7 @@ def apply_mask(draw_info_dict: Dict[str, torch.Tensor], image_to_mask_map: Dict[
         should_log {bool}: whether to print logs
 
     Returns:
-        A dict with the sames keys as in image_mask_map, with values being
+        A dict with the same keys as in image_mask_map, with values being
             numpy.Array, these are of shape (h, w, 3) and stores the masked image
     """
     # * double check for argument type

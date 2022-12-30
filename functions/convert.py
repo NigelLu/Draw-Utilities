@@ -4,7 +4,7 @@
 
         This module contains utility conversion functions often used in drawing
 
-    Function List:
+    Function Provided:
 
         - detach(draw_info_dict: Dict[str, torch.Tensor], keys_to_process: List[str], should_log: bool = False) -> None
 

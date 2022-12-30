@@ -1,5 +1,7 @@
 """ module dataset.classes.py
 """
+# @note 
+# * you may add support for COCO based on your needs
 from typing import Dict, Any
 from collections import defaultdict
 
@@ -37,12 +39,12 @@ for dataset in classId2className:
 
 
 def get_split_classes_pascal() -> Dict[str, Any]:
-    """Returns the split of classes for PASCAL-5i
+    """ Returns the split of classes for PASCAL-5i
     Args:
         None
 
     Returns:
-        A Dict specifying classes for different splits and set -> split_classes[<dataset_name>][<split_num>]['train'/'val'] = training classes in fold 0 of PASCAL-5i
+        A Dict specifying classes for different splits and sets -> split_classes[<dataset_name>][<split_num>]['train'/'val'] = training classes in fold 0 of PASCAL-5i
     """
     split_classes = {"pascal": defaultdict(dict)}
 

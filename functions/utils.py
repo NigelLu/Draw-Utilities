@@ -6,8 +6,8 @@ import shutil
 from typing import Dict
 
 
-def validate_save_dir(save_dir: str, image_to_mask_map: Dict[str, str], split: int) -> bool:
-    """Validate save dir
+def validate_save_dir(save_dir: str, image_to_mask_map: Dict[str, str], split: int, draw_label: bool = True) -> bool:
+    """ Validate save dir
 
     Validate save dir, and clear/ignore the content of the save directory based on user input
 
@@ -19,6 +19,7 @@ def validate_save_dir(save_dir: str, image_to_mask_map: Dict[str, str], split: i
                                 <image_key>: <mask_key>,
                             }
         split {int}: the split of the dataset
+        draw_label {bool}: whether to create directories for drawing raw binary masks (i.e., black-and-white binary masks), default to True
 
     Returns:
         True/False indicating whether the process calling validate_save_dir function should proceed or not
@@ -34,14 +35,20 @@ def validate_save_dir(save_dir: str, image_to_mask_map: Dict[str, str], split: i
         save_dir), f"Expect save_dir to be a direcory, {save_dir} is invalid"
 
     split = str(split)
+    # * list of the output target direcotries
     target_dirs = []
+
     for image_key in image_to_mask_map.keys():
         target_dir = os.path.join(save_dir, split, image_key)
         target_dir_label = os.path.join(save_dir, split, f"{image_key}-label")
+
         os.makedirs(target_dir, exist_ok=True)
-        os.makedirs(target_dir_label, exist_ok=True)
         target_dirs.append(target_dir)
-        target_dirs.append(target_dir_label)
+
+        # * only make the directory for raw binary masks if draw_label is True
+        if draw_label:
+            os.makedirs(target_dir_label, exist_ok=True)
+            target_dirs.append(target_dir_label)
 
     for target_dir in target_dirs:
         if len(os.listdir(target_dir)) == 0:
@@ -55,11 +62,16 @@ def validate_save_dir(save_dir: str, image_to_mask_map: Dict[str, str], split: i
 
         should_proceed = ''
         while should_proceed.lower() != 'yes' and should_proceed.lower() != 'no' and should_proceed.lower() != 'ignore':
+
             should_proceed = input(
                 "Would you like us to empty the directory for you and proceed? (yes/no/ignore)\n> ").lower()
+            
             if should_proceed.lower() == 'no':
+                # * if no, then return False to indicate program abort
                 return False
+
             if should_proceed.lower() == 'yes':
+                # * if yes, then empty the directory
                 shutil.rmtree(target_dir, ignore_errors=True)
                 os.makedirs(target_dir, exist_ok=True)
 

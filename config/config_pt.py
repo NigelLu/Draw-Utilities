@@ -24,6 +24,7 @@ MEAN = [0.485, 0.456, 0.406]
 # * draw config
 SPLIT = 0
 NUM_TO_DRAW = 200
+DRAW_LABEL = False
 
 # * pt file related
 PT_FILE_PATH = f'pt-files/draw-info-pascal-1210_f0_pm1{SPLIT}-200.pt'

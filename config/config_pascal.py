@@ -20,6 +20,7 @@ SHOULD_LOG = False
 # * draw config
 SPLIT = 0
 NUM_TO_DRAW = 100
+DRAW_LABEL = True
 
 # * pt file related
 PT_FILE_PATH = f'pt-files/drawList-{SPLIT}-temp10-200.pt'

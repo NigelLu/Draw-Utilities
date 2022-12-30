@@ -77,7 +77,7 @@ def process_label(label: np.array, class_list: List[int], class_ids_to_be_remove
 
 
 def process_image_line(line: str, data_root: str, class_list: List[int]) -> Tuple[List[Tuple[str, str]], Dict[int, List[Tuple[str, str]]]]:
-    ''' Reads and parses a line corresponding to 1 file
+    """ Reads and parses a line corresponding to 1 file
 
         Args:
             line {str} : A line corresponding to 1 file, in the format path_to_image.jpg path_to_image.png
@@ -91,7 +91,7 @@ def process_image_line(line: str, data_root: str, class_list: List[int]) -> Tupl
 
                 class_file_dict {Dict[int, List[Tuple[str, str]]]}: 
                     dict of <cls_id> -> List[Tuple[<image>, <label>]]
-    '''
+    """
     # * line is in the form of "<image_file> <label_file>"
     line = line.strip()
     line_split = line.split(' ')
@@ -122,7 +122,7 @@ def process_image_line(line: str, data_root: str, class_list: List[int]) -> Tupl
 
 
 def make_dataset(data_root: str, data_list: str, class_list: List[int]) -> Tuple[List[Tuple[str, str]], Dict[int, List[Tuple[str, str]]]]:
-    ''' Recovers all tupples (img_path, label_path) relevant to the current experiments (class_list is used as filter)
+    """ Recovers all tupples (img_path, label_path) relevant to the current experiments (class_list is used as filter)
 
         Args:
             data_root {str}: Path to the data directory
@@ -136,7 +136,7 @@ def make_dataset(data_root: str, data_list: str, class_list: List[int]) -> Tuple
 
                 class_file_dict {Dict[int, List[Tuple[str, str]]]}: 
                     Dict of all (img_path, label_path that contain at least 1 object of a class in class_list, grouped by classes.
-    '''
+    """
     assert os.path.isfile(data_list), \
         f"Argument data_list expects a valid file path, {data_list} is invalid"
 

@@ -13,27 +13,35 @@ from functions.convert import detach, reshape, to_float32, tocpu_and_asNumpy
 
 
 def main():
+    # * keys in draw_info_dict that will be pre-processed 
     keys_to_process = ['query', 'support', 'label_q', 'label_s']
+    # * map from <image_key> to <mask_key>
     image_to_mask_map = {'query': 'label_q', 'support': 'label_s'}
+
     should_proceed = validate_save_dir(
-        cfg.SAVE_DIR, image_to_mask_map, cfg.SPLIT)
+        cfg.SAVE_DIR, image_to_mask_map, cfg.SPLIT, cfg.DRAW_LABEL)
     if not should_proceed:
         print(">>> Main process aborted")
         return
+
     print(">>> Building PASCAL train loader...")
     pascal_raw_train_dataloder = iter(
         get_pascal_raw_train_dataloader(cfg.SPLIT, episodic=True))
     print(">>> PASCAL train loader build success")
 
     for idx in tqdm(range(cfg.NUM_TO_DRAW)):
+        # * retrieve data from dataloader
         qry_img_tensor, qry_label_tensor, spprt_images_tensor, spprt_labels_tensor, qry_info, spt_info = \
             pascal_raw_train_dataloder.next()
+        # * construct the draw_info_dict
         draw_info_dict = {
             'query': qry_info[0],
             'support': spt_info[0][0],
             'label_q': qry_info[1],
             'label_s': spt_info[1][0],
         }
+
+        # * pre-processing
         detach(draw_info_dict, keys_to_process, should_log=cfg.SHOULD_LOG)
         to_float32(draw_info_dict, keys_to_process, should_log=cfg.SHOULD_LOG)
         reshape(draw_info_dict, keys_to_process[0:2],
@@ -42,10 +50,14 @@ def main():
                 keys_to_process[2:], 'c h w -> h w c', should_log=cfg.SHOULD_LOG)
         tocpu_and_asNumpy(draw_info_dict, keys_to_process,
                           should_log=cfg.SHOULD_LOG)
+        
+        # * apply the mask to the image, then draw
         applymask_and_draw(draw_info_dict, image_to_mask_map,
                            cfg.MASK_WEIGHT, cfg.GAMMA_SCALAR, cfg.SAVE_DIR, f'{idx}.jpg', cfg.SPLIT, should_log=cfg.SHOULD_LOG)
+        # * draw the raw binary masks alongside the image
         draw_label(draw_info_dict, image_to_mask_map, cfg.SAVE_DIR,
                    f'{idx}.jpg', cfg.SPLIT, should_log=cfg.SHOULD_LOG)
+
 
 if __name__ == "__main__":
     start_time = time.time()

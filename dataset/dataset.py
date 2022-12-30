@@ -20,7 +20,7 @@ VALID_VAL_SPLIT = VALID_TRAIN_SPLIT + [-1, 'default']
 # endregion CONSTANTS
 
 
-# region Data
+# region Dataset
 class StandardData(Dataset):
     pass
 
@@ -130,11 +130,24 @@ class EpisodicData(Dataset):
             [query_image, query_label, query_image_path, query_label_path],\
             [support_image_list, support_label_list,
                 support_image_path_list, support_label_path_list]
-# endregion Data
+# endregion Dataset
 
 
-# region Get DataLoader
-def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, return_path: bool = False, train_list: str = "dataset/lists/pascal/train.txt") -> DataLoader:
+# region DataLoader
+def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, train_list: str = "dataset/lists/pascal/train.txt") -> DataLoader:
+    """ Get Dataloader for PASCAL-5i dataset 
+
+    The Dataloader here loads raw images with no transformation or augmentation
+
+    Args:
+        split {int}: dataset split
+        episodic {bool}: whether or not to return the Dataloader in an episodic manner (currently, non-episodic Dataloader is NOT implemented)
+        train_list {str}: the relative/absolute path to the train list .txt file
+
+    Returns:
+        {torch.utils.data.Dataloader}: a Dataloader that loads raw PASCAL-5i data in the following manner
+            (qry_img_tensor, qry_label_tensor, spprt_images_tensor, spprt_labels_tensor, qry_info, spt_info)
+    """
     assert split in VALID_TRAIN_SPLIT, f"Valid train splits: {VALID_TRAIN_SPLIT}, got split: {split}"
 
     split_classes_pascal = get_split_classes_pascal()
@@ -150,7 +163,6 @@ def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, return_pa
         raw_train_data_pascal = StandardData(
             transform=None,
             class_list=class_list,
-            return_path=return_path,
             data_list_path=train_list
         )
 
@@ -166,4 +178,4 @@ def get_pascal_raw_train_dataloader(split: int, episodic: bool = True, return_pa
 
     return train_loader
 
-# endregion Get DataLoader
+# endregion DataLoader
