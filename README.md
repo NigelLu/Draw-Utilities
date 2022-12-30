@@ -53,7 +53,7 @@
 ## Hands-on
 
 ### `main-pt.py`
-- Download a pre-defined `.pt` file from this [drive link](https://drive.google.com/file/d/1ydF8tyVupIqYYsqoZGGYR3hWYr3_jykM/view?usp=sharing)
+- Download a pre-defined `.pt` file from this [drive link](https://drive.google.com/file/d/1Sv8nI2hghdN7MTN5RIvXFPoKFNKAoEi7/view?usp=sharing)
 - Place the downloaded .pt file and put it under `pt-files/`
 - `cd` to the root folder of this project
 - Run `python main-pt.py` and see the results in `output` folder!
